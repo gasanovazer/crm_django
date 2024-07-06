@@ -7,6 +7,7 @@ from userprofile.views import singup
 
 urlpatterns = [
     path('', index, name='index'),
+    path("dashboard/", include('dashboard.urls')),
     path('about/', about, name='about'),
     path('sing-up/', singup, name='singup'),
     path('log-in/', views.LoginView.as_view(template_name="userprofile/login.html"), name='login'),
