@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
 
-# Create your views here.
+from .forms import AddLeadForm
+
+@login_required
+def add_lead(request):
+    if request.method == "POST":
+        form = AddLeadForm(request.POST)
+
+        if form.is_valid():
+            lead = form.save()
+            lead.created_by = request.user
+            lead.save()
+
+            return redirect('dasboard')
+    else:
+        form = AddLeadForm()
+
+    return render(request, 'lead/add_lead.html', {
+        'form': form
+    })
