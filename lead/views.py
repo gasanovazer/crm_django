@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import AddLeadForm
 from .models import Lead
@@ -9,6 +9,15 @@ def leads_list(request):
 
     return render(request, 'lead/leads_list.html',{
         'leads': leads
+    })
+
+@login_required
+def leads_detail(request, pk):
+    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+    # lead = Lead.objects.filter(created_by=request.user).get(pk=pk)
+
+    return render(request, 'lead/leads_detail.html', {
+        'lead': lead
     })
 
 
