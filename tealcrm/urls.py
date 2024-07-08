@@ -8,6 +8,7 @@ from userprofile.views import singup
 urlpatterns = [
     path('', index, name='index'),
     path("dashboard/leads/", include('lead.urls')),
+    path("dashboard/clients", include('client.urls')),
     path("dashboard/", include('dashboard.urls')),
     path('about/', about, name='about'),
     path('sing-up/', singup, name='singup'),
