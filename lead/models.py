@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from team.models import Team
+
 class Lead(models.Model):
     LOW = "low"
     MEDIUM = 'medium'
@@ -24,6 +26,7 @@ class Lead(models.Model):
         (LOST, 'Lost'),
     )
 
+    team = models.ForeignKey(Team, related_name='leads', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     description = models.TextField(blank=True, null=True)
