@@ -5,10 +5,21 @@
 {% block content %}
 <div class="py-6 px-6">
     <h1 class='text-xl'>Add Lead</h1>
-    <form method='post' action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class='py-4 px-8 bg-teal-500 text-white rounded-xl'>Submit</button>
-    </form>
+
+    Num leads {{ team.leads.all|length }}
+
+    {% if team.plan.max_leads > team.leads.all|length %}
+        <form method='post' action=".">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class='py-4 px-8 bg-teal-500 text-white rounded-xl'>Submit</button>
+        </form>
+    {% else %}
+        <div class="mt-6 py-6 px-4 bg-red-400 rounded-xl text-white">
+            Your team have has reached maximum number of leads. Your owner must upgrade your plan!
+        </div>
+        <p></p>
+    {% endif %}
+
 </div>
 {% endblock content %}
