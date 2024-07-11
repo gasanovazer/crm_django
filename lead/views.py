@@ -1,10 +1,8 @@
-from typing import Any
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from .forms import AddLeadForm
 from .models import Lead
@@ -25,6 +23,13 @@ class LeadListView(ListView):
         queryset = super(LeadListView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, converted_to_client=False)
     
+class LeadDetailView(DetailView):
+    model = Lead
+    def get_queryset(self):
+        queryset = super(LeadDetailView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
+    
+
 @login_required
 def leads_detail(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
