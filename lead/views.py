@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views import View
 
 
 from .models import Lead
@@ -98,6 +99,24 @@ class LeadCreateView(CreateView):
 
         return redirect(self.get_success_url())
     
+class ConverToClientView(View):
+    def get(self, request, *args, **kwargs):
+        lead = get_object_or_404(Lead, created_by=request.user, pk=self.kwargs.get("pk"))
+        team = Team.objects.filter(created_by=request.user)[0]
+
+        client = Client.objects.create(
+            name=lead.name,
+            email=lead.email,
+            description=lead.description,
+            created_by = request.user,
+            team = team,
+        )
+        lead.converted_to_client = True
+        lead.save()
+        
+        messages.success(request, "The lead was converted to a client.")
+
+        return redirect('leads:list')
     
 @login_required
 def converted_to_client(request, pk):
