@@ -38,7 +38,7 @@ def leads_delete(request, pk):
 
     messages.success(request, "The lead was deleted.")
 
-    return redirect('leads_list')
+    return redirect('leads:list')
 
 @login_required
 def leads_edit(request, pk):
@@ -51,7 +51,7 @@ def leads_edit(request, pk):
             form.save()
             messages.success(request, "The changes was saved.")
             
-            return redirect('leads_list')
+            return redirect('leads:list')
     else:
         form = AddLeadForm(instance=lead)
     return render(request, 'lead/leads_edit.html', {
@@ -73,7 +73,7 @@ def add_lead(request):
             lead.save()
             messages.success(request, "The lead was created.")
 
-            return redirect('leads_list')
+            return redirect('leads:list')
     else:
         form = AddLeadForm()
 
@@ -98,4 +98,4 @@ def converted_to_client(request, pk):
     lead.save()
     messages.success(request, "The lead was converted to a client.")
 
-    return redirect('leads_list')
+    return redirect('leads:list')

@@ -14,7 +14,7 @@ def edit_team(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'The changes was saved!')
-            return redirect('myaccount')
+            return redirect('userprofile:myaccount')
 
     else:
         form = TeamForm(instance=team)
