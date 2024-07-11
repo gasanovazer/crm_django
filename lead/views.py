@@ -1,9 +1,10 @@
-import email
-from os import name
+from typing import Any
 from django.contrib import messages
-from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 
 from .forms import AddLeadForm
 from .models import Lead
@@ -11,17 +12,19 @@ from .models import Lead
 from client.models import Client
 from team.models import Team
 
-@login_required
-def leads_list(request):
-    leads = Lead.objects.filter(
-        created_by=request.user,
-        converted_to_client=False
-    )
 
-    return render(request, 'lead/leads_list.html',{
-        'leads': leads
-    })
+class LeadListView(ListView):
+    model = Lead
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+
+    def get_queryset(self):
+        queryset = super(LeadListView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, converted_to_client=False)
+    
 @login_required
 def leads_detail(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
