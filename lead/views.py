@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, ListView
+from django.views.generic import DeleteView, DetailView, ListView
 
 from .forms import AddLeadForm
 from .models import Lead
@@ -25,19 +26,30 @@ class LeadListView(ListView):
     
 class LeadDetailView(DetailView):
     model = Lead
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_queryset(self):
         queryset = super(LeadDetailView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
     
+class LeadDeleteView(DeleteView):
+    model = Lead
 
-@login_required
-def leads_detail(request, pk):
-    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
-    # lead = Lead.objects.filter(created_by=request.user).get(pk=pk)
+    success_url = reverse_lazy('leads:list')
 
-    return render(request, 'lead/leads_detail.html', {
-        'lead': lead
-    })
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        queryset = super(LeadDeleteView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
+    
+    def get(self, request, *args, **kwargs):
+        return super.post(request, *args, **kwargs)
 
 @login_required
 def leads_delete(request, pk):

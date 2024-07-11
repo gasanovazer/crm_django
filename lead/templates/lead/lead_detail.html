@@ -20,12 +20,17 @@
         <p class="font-semibold">Created at</p>
         <p class="mb-2">{{ lead.created_at|date:"M-d-Y H:i" }}</p>
 
+        <form id="lead_delete_form" method="post" action="{% url "leads:delete" lead.id %}">
+            {% csrf_token %}
+        </form>
         <p class="font-semibold">Modified at</p>
         <p class="mb-6">{{ lead.modified_at|date:"M-d-Y H:i" }}</p>
         <hr class='my-4'>
         <a href="{% url "leads:convert" lead.id %}" class="py-2 px-2 rounded-xl bg-blue-500 text-white">Convert</a>
         <a href="{% url "leads:edit" lead.id %}" class="py-2 px-2 rounded-xl bg-teal-500 text-white">Edit</a>
-        <a href="{% url "leads:delete" lead.id %}" class="py-2 px-2 rounded-xl bg-red-500 text-white">Delete</a>
+        <a href="#" class="py-2 px-2 rounded-xl bg-red-500 text-white"  onclick="document.getElementById('lead_delete_form').submit();">Delete</a>
+        
+
         <hr class='my-4'>
         <a href="{% url "leads:list" %}">Back to leads</a>
     </div>
