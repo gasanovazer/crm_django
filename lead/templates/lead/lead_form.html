@@ -1,14 +1,16 @@
 {% extends "core/base.html" %}
 
-{% block title %}Add Lead{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
 <div class="py-6 px-6">
-    <h1 class='text-xl'>Add Lead</h1>
+    <h1 class='text-xl'>{{ title }}</h1>
 
-    Num leads {{ team.leads.all|length }}
-
-    {% if team.plan.max_leads > team.leads.all|length %}
+    {% if title == 'Add lead' %}
+        Num leads {{ team.leads.all|length }}
+    {% endif %}
+    
+    {% if team.plan.max_leads > team.leads.count or title == 'Edit lead' %}
         <form method='post' action=".">
             {% csrf_token %}
             {{ form.as_p }}
