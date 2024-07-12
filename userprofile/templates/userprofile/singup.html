@@ -3,10 +3,12 @@
 {% block title %}Sing up{% endblock title %}
 
 {% block content %}
-    <h1 class="text-lg">Sing up</h1>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="py-4 px-8 bg-teal-500 text-white rounded-xl">Submit</button>
-    </form>
+    <div class="py-6 px-6">
+        <h1 class="mb-6 text-lg">Sing up</h1>
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="py-4 px-8 bg-teal-500 text-white rounded-xl">Submit</button>
+        </form>
+    </div>
 {% endblock content %}

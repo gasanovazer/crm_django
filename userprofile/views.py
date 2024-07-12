@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
 
+from .forms import SingForm
 from .models import Userprofile
 
 from team.models import Team
 
 def singup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SingForm(request.POST)
         if form.is_valid():
             user = form.save()
 
@@ -20,7 +20,7 @@ def singup(request):
 
             return redirect('/log-in/')
     else:
-        form = UserCreationForm()
+        form = SingForm()
 
     return render(request, 'userprofile/singup.html', {
         'form':form
