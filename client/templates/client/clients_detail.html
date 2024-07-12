@@ -42,7 +42,27 @@
             {{ form.as_p }}
             <button class="py-2 px-2 rounded-xl bg-blue-500 text-white">Submit</button>
         </form>
+        <hr class="my-4">
+        <h2 class="mb6 text-xl">Files</h2>
+        <div class="space-y-4">
+            {% for file in client.files.all %}
+                <div class="mt-4 bg-gray-100 py-6 px-6 rounded-xl">
+                    <p class="mb-2">
+                         
+                        <strong>{{ file.created_by }}:</strong>
+                        @ {{ file.created_at }}
+                    </p> 
+                    <a href="{{ file.file.url }}">Download</a>
+                </div>
+            {% endfor %}
+        </div>
+        <form method="post" action="{% url "clients:add_file" client.id %}" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{ fileform.as_p }}
+            <button class="py-2 px-2 rounded-xl bg-blue-500 text-white">Submit</button>
+        </form>
 
+        <hr class='my-4'>
         py-2 px-2 rounded-xl bg-teal-500 text-white
         <a href="{% url "clients:list" %}" class="py-2 px-2 rounded-xl bg-blue-500 text-white">Back to clients</a>
     </div>
