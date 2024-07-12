@@ -21,6 +21,29 @@
         <a href="{% url "clients:edit" client.id %}" class="py-2 px-2 rounded-xl bg-teal-500 text-white">Edit</a>
         <a href="{% url "clients:delete" client.id%}" class="py-2 px-2 rounded-xl bg-red-500 text-white">Delete</a>
         <hr class='my-4'>
-        <a href="{% url "clients:list" %}">Back to clients</a>
+
+        <h2 class="text-2xl">Comments</h2>
+        <div class="space-y-4">
+            {% for comment in client.comments.all %}
+                <div class="mt-4 bg-gray-100 py-6 px-6">
+                    <p class="mb-2">
+                         
+                        <strong>{{ comment.created_by }}:</strong>
+                        @ {{ comment.created_at }}
+                    </p> 
+                    {{ comment.content }}
+                </div>
+                <hr class="w-48 h-1 mx-auto my-4 bg-black-500 border-0 rounded md:my-5 dark:bg-gray-700">
+            {% endfor %}
+        </div>
+
+        <form method="post" action="{% url "clients:add_comment" client.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="py-2 px-2 rounded-xl bg-blue-500 text-white">Submit</button>
+        </form>
+
+        py-2 px-2 rounded-xl bg-teal-500 text-white
+        <a href="{% url "clients:list" %}" class="py-2 px-2 rounded-xl bg-blue-500 text-white">Back to clients</a>
     </div>
 {% endblock content %}

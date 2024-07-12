@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.LeadDeleteView.as_view(), name='delete'),
     path('<int:pk>/edit/', views.LeadUpdateView.as_view(), name='edit'),
     path('<int:pk>/convert/', views.ConverToClientView.as_view(), name='convert'),
-    path('add-lead/', views.LeadCreateView.as_view(), name='add'),
+    path('<int:pk>/add-comment/', views.AddCommentView.as_view(), name='add_comment'),
+    path('add/', views.LeadCreateView.as_view(), name='add'),
 ]
