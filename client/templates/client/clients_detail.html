@@ -56,6 +56,7 @@
                 </div>
             {% endfor %}
         </div>
+        
         <form method="post" action="{% url "clients:add_file" client.id %}" enctype='multipart/form-data'>
             {% csrf_token %}
             {{ fileform.as_p }}

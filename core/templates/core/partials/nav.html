@@ -12,8 +12,11 @@
             {% endif %}
             <a href="{% url "userprofile:myaccount" %}" class="py-4 px-6 bg-teal-800 rounded-xl text-white">My account</a>
         {% else %}
-            <a href="{% url "login" %}" class="py-4 px-6 bg-teal-600 rounded-xl text-white">Log in</a>
             <a href="{% url "userprofile:singup" %}" class="py-4 px-6 bg-teal-300 rounded-xl text-white">Sing up</a>
+        
+            {% comment %} <a href="{% url "login" %}" class="py-4 px-6 bg-teal-600 rounded-xl text-white">Log in</a> {% endcomment %}
+            <a href="{% url "login" %}" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+
         {% endif %}
     </div>
 </nav>

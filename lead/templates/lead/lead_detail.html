@@ -66,6 +66,7 @@
                 </div>
             {% endfor %}
         </div>
+        
         <form method="post" action="{% url "leads:add_file" lead.id %}" enctype='multipart/form-data'>
             {% csrf_token %}
             {{ fileform.as_p }}
